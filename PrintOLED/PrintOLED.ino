@@ -12,7 +12,7 @@ unsigned long Time;
 void setup() 
 {
   Serial.begin(9600);
-  Wire.begin(21,22);
+  Wire.begin(21,22); //SDA,SCL
   if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {Serial.println(F("NOT FOUND OLED"));while (true);}
 
   display.clearDisplay();
