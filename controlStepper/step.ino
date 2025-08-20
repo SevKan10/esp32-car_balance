@@ -7,10 +7,10 @@ void controlStep(int round, int delay)
   for (int i = 0; i < pluse; i++)
   {
     digitalWrite(STEP1, 1); // Cuộn dây trên của step
-    // digitalWrite(STEP2, 1); // Cuộn dây trên của step
+    digitalWrite(STEP2, 1); // Cuộn dây trên của step
     delayMicroseconds(delay);
     digitalWrite(STEP1, 0); // Cuộn dây dưới của step
-    // digitalWrite(STEP2, 0); // Cuộn dây dưới của step
+    digitalWrite(STEP2, 0); // Cuộn dây dưới của step
     delayMicroseconds(delay);
   }
 
