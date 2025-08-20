@@ -8,19 +8,18 @@
 
 #define EN    12
 #define STEP1 32  // Chân xung
-#define DIR1  35  // Chân DIR1 dùng để xác định chiều quay của step
+#define DIR1  25  // Chân DIR1 dùng để xác định chiều quay của step
 #define STEP2 14  // Chân xung
 #define DIR2  27  // Chân DIR1 dùng để xác định chiều quay của step
 
 int R = 2;
 int D = 400;
-String inputString = "";
-bool stringComplete = false;
-
+String inputParameter ="";
+int commandIndex;
 void setup() 
 {
   Serial.begin(9600);
-  Serial.println("R,D (Ex: 200,500):");
+  Serial.println("Fomat R,D (Ex: 200,500):");
 
   pinMode(EN, OUTPUT);
   pinMode(STEP1, OUTPUT);
@@ -34,30 +33,14 @@ void setup()
 
 void loop() 
 {
-  while (Serial.available()) 
+  if (Serial.available())
   {
-    char inChar = (char)Serial.read();
-    inputString += inChar;
-    if (inChar == '\n') {stringComplete = true;}
-  }
+    inputParameter = Serial.readStringUntil('\n');
 
-  if (stringComplete) 
-  {
-    inputString.trim();
-    int commaIndex = inputString.indexOf(',');
+    commandIndex = inputParameter.indexOf(',');
 
-    if (commaIndex != -1) 
-    {
-      String sR = inputString.substring(0, commaIndex); // Từ vị trí đầu tới ngay trước index
-      String sD = inputString.substring(commaIndex + 1); // Từ ngay index + 1 đơn vị
-
-      R = sR.toInt();
-      D = sD.toInt();
-    } 
+    if (commandIndex > 0) {R = inputParameter.substring(0, commandIndex).toInt(); D = inputParameter.substring(commandIndex + 1).toInt();}
     else {Serial.println("FAILED R,D");}
-
-    inputString = "";
-    stringComplete = false;
   }
 
   digitalWrite(DIR1, 0);
