@@ -34,7 +34,6 @@ void setup()
 
 void loop() 
 {
-  // Doc du lieu tu Serial
   while (Serial.available()) 
   {
     char inChar = (char)Serial.read();
@@ -42,7 +41,6 @@ void loop()
     if (inChar == '\n') {stringComplete = true;}
   }
 
-  // Xu ly khi chuoi da hoan chinh
   if (stringComplete) 
   {
     inputString.trim();
