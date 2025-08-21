@@ -15,7 +15,7 @@
 int R = 2;
 int D = 400;
 String inputParameter ="";
-int commandIndex;
+
 void setup() 
 {
   Serial.begin(9600);
@@ -35,8 +35,8 @@ void loop()
 {
   if (Serial.available())
   {
+    int commandIndex;
     inputParameter = Serial.readStringUntil('\n');
-
     commandIndex = inputParameter.indexOf(',');
 
     if (commandIndex > 0) {R = inputParameter.substring(0, commandIndex).toInt(); D = inputParameter.substring(commandIndex + 1).toInt();}
