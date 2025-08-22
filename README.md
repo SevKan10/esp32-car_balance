@@ -33,3 +33,5 @@ The goal is to apply knowledge of:
 ## 📐 Block Schematic
 
 ![Schematic](images/Schematic.png)
+## 📖 More Document
+<a href="https://www.instructables.com/DIY-ESP32-Wifi-Self-Balancing-Robot-B-Robot-ESP32-/">Document about it</a>
