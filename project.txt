@@ -1,0 +1,25 @@
+
+---
+
+🚧 Progress & Tasks
+- [x] Design the control circuit
+- [x] Control step motor 
+- [ ] Connect MPU6050 and read data
+- [ ] Implement PID algorithm
+- [ ] Tune PID parameters for balance (MPU control step motor)
+- [ ] Build and assemble mechanical frame
+- [ ] Add Bluetooth/WiFi remote control
+
+---
+
+🔮 Future Improvements
+- Smartphone control via Bluetooth/WiFi
+- Add OLED display for real-time parameters
+- Check battery percent
+
+---
+
+👨‍💻 Author
+Developed by SevKan (KKhang)  
+📅 Started: 18/8/2025  
+📍 Phong Dien, Can Tho, Vietnam  
