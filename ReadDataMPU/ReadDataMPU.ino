@@ -8,7 +8,7 @@ long timer = 0;
 void setup()
 {
   Serial.begin(9600);
-  Wire.begin(23,22); //SDA,SCL
+  Wire.begin(); //SDA,SCL
   mpu6050.begin();
   mpu6050.calcGyroOffsets(true);
 }
