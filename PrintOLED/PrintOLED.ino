@@ -8,7 +8,8 @@
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
 unsigned long Time;
-
+int kalAngleX = 90;
+int kalAngleY = 181;
 void setup() 
 {
   Serial.begin(9600);
@@ -28,8 +29,13 @@ void setup()
 }
 void loop() 
 {
-  display.setTextSize(2);
   display.setCursor(0, 0);
-  display.print("KHANG");
+  display.print("X: ");
+  display.print(kalAngleX);
+  display.display();
+
+  display.setCursor(0, 30);
+  display.print("Y: ");
+  display.print(kalAngleY);
   display.display();
 }
