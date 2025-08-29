@@ -22,6 +22,8 @@ double compAngleX, compAngleY;
 double kalAngleX, kalAngleY; 
 
 uint32_t timer;
+unsigned long delayTime;
+
 uint8_t i2cData[14]; 
 /*=============================== KALMAN FILTER ===============================*/
 
@@ -43,7 +45,7 @@ void setup()
 
   display.clearDisplay();
   display.setCursor(23, 8);
-  display.println("LOADING...");
+  display.println("LOADING.");
   display.display();
   delay(3000);
   display.clearDisplay();
@@ -62,7 +64,8 @@ void setup()
   while (i2cWrite(0x19, i2cData, 4, false)); 
   while (i2cWrite(0x6B, 0x01, true)); 
   while (i2cRead(0x75, i2cData, 1));
-  if (i2cData[0] != 0x68) { 
+  if (i2cData[0] != 0x68) 
+  { 
     Serial.print(F("Error reading sensor"));
     while (1);
   }
@@ -117,36 +120,37 @@ void loop()
 
 #ifdef RESTRICT_PITCH
   // This fixes the transition problem when the accelerometer angle jumps between -180 and 180 degrees
-  if ((roll < -90 && kalAngleX > 90) || (roll > 90 && kalAngleX < -90)) {
+  if ((roll < -90 && kalAngleX > 90) || (roll > 90 && kalAngleX < -90)) 
+  {
     kalmanX.setAngle(roll);
     compAngleX = roll;
     kalAngleX = roll;
     gyroXangle = roll;
-  } else
-    kalAngleX = kalmanX.getAngle(roll, gyroXrate, dt); // Calculate the angle using a Kalman filter
+  } 
+  else kalAngleX = kalmanX.getAngle(roll, gyroXrate, dt); // Calculate the angle using a Kalman filter
 
   if (abs(kalAngleX) > 90)
     gyroYrate = -gyroYrate; // Invert rate, so it fits the restriced accelerometer reading
-  kalAngleY = kalmanY.getAngle(pitch, gyroYrate, dt);
+    kalAngleY = kalmanY.getAngle(pitch, gyroYrate, dt);
 #else
   // This fixes the transition problem when the accelerometer angle jumps between -180 and 180 degrees
-  if ((pitch < -90 && kalAngleY > 90) || (pitch > 90 && kalAngleY < -90)) {
+  if ((pitch < -90 && kalAngleY > 90) || (pitch > 90 && kalAngleY < -90))
+  {
     kalmanY.setAngle(pitch);
     compAngleY = pitch;
     kalAngleY = pitch;
     gyroYangle = pitch;
-  } else
-    kalAngleY = kalmanY.getAngle(pitch, gyroYrate, dt); // Calculate the angle using a Kalman filter
+  } else kalAngleY = kalmanY.getAngle(pitch, gyroYrate, dt); // Calculate the angle using a Kalman filter
 
   if (abs(kalAngleY) > 90)
     gyroXrate = -gyroXrate; // Invert rate, so it fits the restriced accelerometer reading
-  kalAngleX = kalmanX.getAngle(roll, gyroXrate, dt); // Calculate the angle using a Kalman filter
+    kalAngleX = kalmanX.getAngle(roll, gyroXrate, dt); // Calculate the angle using a Kalman filter
 #endif
 
-  gyroXangle += gyroXrate * dt; // Calculate gyro angle without any filter
-  gyroYangle += gyroYrate * dt;
-  //gyroXangle += kalmanX.getRate() * dt; // Calculate gyro angle using the unbiased rate
-  //gyroYangle += kalmanY.getRate() * dt;
+  // gyroXangle += gyroXrate * dt; // Calculate gyro angle without any filter, dữ liệu thô
+  // gyroYangle += gyroYrate * dt;
+  gyroXangle += kalmanX.getRate() * dt; // Calculate gyro angle using the unbiased rate, dữ liệu của kalman giúp giảm trôi
+  gyroYangle += kalmanY.getRate() * dt;
 
   compAngleX = 0.93 * (compAngleX + gyroXrate * dt) + 0.07 * roll; // Calculate the angle using a Complimentary filter
   compAngleY = 0.93 * (compAngleY + gyroYrate * dt) + 0.07 * pitch;
@@ -157,12 +161,16 @@ void loop()
   if (gyroYangle < -180 || gyroYangle > 180)
     gyroYangle = kalAngleY;
 
-  /* Print Data */
-  Serial.print(kalAngleX); Serial.print("\t");
-  Serial.print("\t");
-  Serial.print(kalAngleY); Serial.print("\t");
-  Serial.print("\r\n");
-  delay(2);
+
+  if (millis() - delayTime > 2)
+  {
+    /* Print Data */
+    Serial.print(kalAngleX); Serial.print("\t");
+    Serial.print("\t");
+    Serial.print(kalAngleY); Serial.print("\t");
+    Serial.print("\r\n");
+    delayTime = millis();
+  }
 
   display.setCursor(0, 0);
   display.print("X: ");
