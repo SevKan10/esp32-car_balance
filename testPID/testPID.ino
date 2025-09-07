@@ -40,15 +40,6 @@ uint8_t i2cData[14];
 #define DIR2  27  // Chân DIR1 dùng để xác định chiều quay của step
 
 /*=============================== VARIABLE ===============================*/
-float const Kp = 0.5; // Hằng số tỉ lệ
-float const Ki = 0.0; // Hằng số tích phân
-float const Kd = 0.5; // Hằng số vi phân (đạo hàm)
-float integral = 0; // Tích phân, vì biến này sẽ cộng dồn nên ban đầu khai báo sẽ là 0
-float derivative;   // Đạo hàm (vi phân)
-double dt;           // delta t: khoảng thời gian giữa 2 lần lấy mẫu hay cục thể là giữa 2 lần void loop()
-float output;       // kết quả PID = tổng các kết quả từ quá trình tính: u(t) = Kp*error + Ki*(integral+= error*dt) + Kd*(error - lastError)/dt  
-float setPoint = -2.95, error, lastError = 0; // setPoint là điểm mà chiếc xe được cân bằng
-unsigned long delayTime;
 
 void setup() 
 {

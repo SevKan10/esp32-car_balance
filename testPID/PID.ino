@@ -5,9 +5,8 @@ void updatePID(float angle, double deltaTime)
   derivative = (error - lastError)/deltaTime; // Tính vi phân
   output =  Kp*error + Ki*integral + Kd*derivative; // PID
   lastError = error;
-  return (output);
 
-  Serial.print("PID: "); Serial.println(output);
+  // Serial.print("PID: "); Serial.println(output);
   // controlStep(output);
   // driveStepper(output);
 }
