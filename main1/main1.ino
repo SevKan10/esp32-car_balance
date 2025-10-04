@@ -18,9 +18,9 @@ uint32_t timer;
 uint8_t i2cData[14]; 
 
 // **PID PARAMETERS ĐÃ CHỈNH**
-float const Kp = 3.0;    // Giảm từ 8.0 → 3.0
-float const Ki = 0.0;    // Tắt Ki
-float const Kd = 1.0;    // Giảm từ 2.0 → 1.0
+float const Kp = 10.0;    // Giảm từ 8.0 → 3.0
+float const Ki = 0.1;    // Tắt Ki
+float const Kd = 2.0;   // Giảm từ 2.0 → 1.0
 
 float integral = 0; 
 float derivative;   
